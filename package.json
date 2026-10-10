@@ -1,0 +1,12 @@
+{
+  "name": "omp-pushover",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "omp": {
+    "extensions": ["./src/index.ts"]
+  },
+  "scripts": {
+    "test": "bun test"
+  }
+}

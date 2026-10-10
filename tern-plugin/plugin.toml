@@ -1,0 +1,7 @@
+schema = 1
+id = "omp-pushover"
+name = "Phone push (omp)"
+version = "0.1.0"
+description = "Controls omp-pushover iPhone notifications and shows their mode."
+icon = "bell"
+window = "window.luau"
