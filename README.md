@@ -86,7 +86,11 @@ The command palette has a **Phone push** group:
 - Phone push: Notify me when this agent finishes (arms the focused pane)
 - Phone push: Cycle mode
 
-The status-line segment shows the same `push: …` text. Clicking it cycles auto → always → off. omp sees changes made in Tern within 15 seconds.
+A command is listed only when it would do something. The current mode is not listed, and "Notify me when this agent finishes" is listed only when the focused pane runs omp and is not armed yet.
+
+Tern gives its plugins pane numbers that can differ from the `$TERN_PANE` that omp reads. "Notify me when this agent finishes" therefore finds the focused pane in `tern ls` by its title and folder, and arms that pane's `$TERN_PANE`. If it cannot tell which pane it is, for example when two panes have the same title and folder, it says so; run `/push arm` in the agent instead. Arming also removes the arms of panes that no longer exist.
+
+The status-line segment shows the same `push: …` text, with `· armed` on an armed pane. Clicking it cycles auto → always → off. omp sees changes made in Tern within 15 seconds.
 
 ## How it decides
 
@@ -140,6 +144,9 @@ Times are Unix seconds. A missing or invalid file means the defaults.
 - **`/push status` says credentials are missing.** Run the two `security` commands again. Check them with `security find-generic-password -s omp-pushover -a app-token -w`.
 - **`· error` in the status line.** `/push status` shows the last error. Errors are cleared by the next successful send.
 - **Nothing arrives while you are away.** `/push status` shows the last decision and its reason, such as `dropped (short turn)` or `wait 50s (present …)`.
+- **"Notify me when this agent finishes" is missing from the palette.** Focus the agent's pane first. The command is also hidden when the pane is already armed, and when Tern's command-line tool (`tern`) is not in `/Applications/Tern.app`, `~/Applications/Tern.app`, `~/.local/bin`, `/opt/homebrew/bin` or `/usr/local/bin`.
+- **A Tern arm that never fires.** omp's own status line shows `· armed` only when the arm names its pane. If it doesn't, arm again from the palette, or run `/push arm` in the agent.
+- **The Tern segment stopped updating.** Tern turns off a plugin hook that runs too long, until the plugin reloads. `~/Library/Logs/Tern/tern.log` lists it (`plugin hook exceeded its budget`). Touch `tern-plugin/window.luau` (Tern reloads a linked plugin when its files change) or restart Tern.
 
 ## Uninstall
 
